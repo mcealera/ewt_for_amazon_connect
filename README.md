@@ -57,12 +57,12 @@ If you already have a Connect instance and are familiar with Amazon Connect, you
 ![](images/makeacall.png)
 
 
-# 4. Building a simple call tracker 
+# 3. Building a simple call tracker 
 
 We will use a DynamoDB table to store the callId, timestamp and EWT. For every call put into a queue, a Lambda function will lookup insert an item in the table. While waiting in a queue, another item will periodically query the table, update the EWT and return it to Connect.  
 
 
-### 4.1 Creating the DynamoDB table
+### 3.1 Creating the DynamoDB table
 
 1. Log into the Amazon console.
 2. Navigate to Services > DynamoDB
@@ -70,7 +70,7 @@ We will use a DynamoDB table to store the callId, timestamp and EWT. For every c
 4. Click Create.
 
 
-### 4.2 Creating an IAM role used by Lambda to access DynamoDB
+### 3.2 Creating an IAM role used by Lambda to access DynamoDB
 
 1. Log into the Amazon console.
 2. Navigate to Services > IAM > Roles
@@ -81,7 +81,7 @@ We will use a DynamoDB table to store the callId, timestamp and EWT. For every c
 7. Enter a name (e.g. "ConnectDDBLambdaRole") and click Create Role.
 
 
-### 4.3 Creating the putQueue Lambda
+### 3.3 Creating the putQueue Lambda
 
 1. Log into the Amazon console.
 2. Navigate to Services > Lambda
@@ -119,7 +119,7 @@ def lambda_handler(event, context):
 ```
 6. Click Save.
 
-### 4.4 Creating the getEWT Lambda
+### 3.4 Creating the getEWT Lambda
 
 1. Perform the same steps as before for a new function: getEWT
 2. For the Function Code use:
@@ -176,20 +176,23 @@ def lambda_handler(event, context):
 ```
 6. Click Save.
 
-### 4.5 Granting permissions for Lambda in Connect
+### 3.5 Granting permissions for Lambda in Connect
 
 1. Log into the Amazon console.
 2. Navigate to Services > Amazon Connect. Select your Connect instance.
 3. Select Contact Flows
-4. Scroll down to the Lambda section and add the getCustomer function you just created. Make sure to click +Add Lambda Function!
+4. Scroll down to the Lambda section and add the putQueue and getEWT functions you just created. Make sure to click +Add Lambda Function!
 
-# 5. Create a custom Customer Queue
+# 4. Create a custom Customer Queue
 
 In Connect we will first create a custom Customer Queue. 
 This will control what the customer hears while he is waiting in the queue.
 
 1. Under Routing, select Contact Flows.
 2. Click on the small arrow next to Create Contact Flow. Select Create Customer Queue Flow.
+
+![](images/createCustomerQueue.png)
+
 3. Enter the name EWTQueue.
 4. Add the following blocks:
    * Loop Prompt (CustomerQueue.wav)
@@ -200,9 +203,12 @@ This will control what the customer hears while he is waiting in the queue.
    * End flow/resume
    * Disconnect.
  4. Connect the blocks as shown. 
+ 
+ ![](images/customerQueueFlow.png)
+ 
  5. Publish
 
-# 6. Create a simple Contact Flow
+# 5. Create a simple Contact Flow
 
 We will create a very simple flow to put incoming calls into a queue. 
 
@@ -217,10 +223,13 @@ We will create a very simple flow to put incoming calls into a queue.
    * Transfer to Queue
    * Disconnect
 4. Connect the blocks as shown.
+
+ ![](images/simpleFlow.png)
+
 5. Publish.
 6. Attach the phone number you claimed to the QueueTimer flow.
 
-# 7. Test
+# 6. Test
 
 For the EWT to be other than 0, you will need to call in from at least 2 different numbers at the same time and have no agents available to take the call.
 For the first caller, the EWT will be 0, as he will be first in line to be serviced, as soon as an agent is available.
@@ -237,5 +246,4 @@ You can also monitor the DynamoDB table. Notice the EWT attribute.
 5. Click on the checkbox next to your customers table and click Delete.
 6. Navigate to Services > Lambda.
 7. Click on the checkbox next to your get/updateCustomer functions and click Actions > Delete.
-8. Navigate Services > S3.
-9. Find the bucket created by Connect (default name looks like 'connect-9535c3748467'). Delete call recordings, if any.
+
