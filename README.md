@@ -3,7 +3,7 @@ Knowing how much time a customer has to wait in a call center queue before being
 What is does provide, however, is the wait time for the longest waiting customer in a given queue.
 
 Based on this information, we will built a very simple, call-specific, EWT functionality.
-The EWT will be dynamic and update itself as the customer spends more time and the queue and/or the queue metrics change.
+The EWT will be dynamic and update itself as the customer spends more time in the queue and/or the queue metrics change.
 
 The dynamic EWT will be presented to the customer while he/she is waiting in the queue, with the option to remain in the queue or hand up.
 
