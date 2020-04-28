@@ -240,7 +240,7 @@ For the second caller, the EWT will be updated accordingly.
 
 You can also monitor the DynamoDB table. Notice the EWT attribute.
 
-# 8. Clean-up
+# 7. Clean-up
 
 1. Log into the Amazon console.
 2. Navigate to Services > Amazon Connect. 
