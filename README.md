@@ -234,8 +234,8 @@ We will create a very simple flow to put incoming calls into a queue.
 
 # 6. Test
 
-For the EWT to be other than 0, you will need to call in from at least 2 different numbers at the same time and have no agents available to take the call.
-For the first caller, the EWT will be 0, as he will be first in line to be serviced, as soon as an agent is available.
+For the EWT to be other than 0, you will need to call in from at least 2 different numbers at the same time and have no agents available to take the calls.
+For the first caller, the EWT will be 0, as he or she will be first in line to be serviced, as soon as an agent is available.
 For the second caller, the EWT will be updated accordingly.
 
 You can also monitor the DynamoDB table. Notice the EWT attribute.
