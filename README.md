@@ -197,7 +197,10 @@ This will control what the customer hears while he is waiting in the queue.
 4. Add the following blocks:
    * Loop Prompt (CustomerQueue.wav)
    * Get Queue Metrics
-   * Invoke Lambda Function (getEWT, parameters: Use Attribute. Destination key: queue_time, Type: Queue Metrics, Attribute: Oldest Contact in the Queue
+   * Invoke Lambda Function (getEWT, parameters: Use Attribute. Destination key: queue_time, Type: Queue Metrics, Attribute: Oldest Contact in the Queue)
+   
+   ![](images/lambdaParams.png)
+   
    * Play Prompt (Your current wait time is $.External.ewt seconds)
    * Get Customer Input (1 - stay in the queue, 2 - disconnect, timeout and default - stay in the queue)
    * End flow/resume
